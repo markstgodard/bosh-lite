@@ -33,4 +33,13 @@ Vagrant.configure('2') do |config|
     #we no longer build current boxes for vmware_workstation
     #ensure that this fails. otherwise the user gets an old box
   end
+
+  config.vm.provision "shell",
+    inline: "sudo modprobe br-netfilter"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    set -e -x -u
+    sudo apt-get install -y openvswitch-switch
+    sudo modprobe openvswitch
+  SHELL
 end
